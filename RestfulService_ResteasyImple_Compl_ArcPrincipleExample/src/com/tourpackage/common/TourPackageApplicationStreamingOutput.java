@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
+/*This is the Contractual Agrement provided by Api this method will be called by passing OutputStram as input. inside this method you nedd to perform the 
+ * logic to return output strem object this method will called by RestEasy Container or Jax-rs runtime*/
 public class TourPackageApplicationStreamingOutput implements StreamingOutput{
 	
 	public String name;
