@@ -1,5 +1,4 @@
 package com.jerseyimpl.common;
-
 import java.io.IOException;
 import java.io.OutputStream;
 
