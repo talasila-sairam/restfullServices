@@ -15,8 +15,8 @@
      </init-param>
      for recursive packages means one inside another.by default it will not take from sub packages
       <init-param>
-        <param-name>jersey.config.server.provider.packages</param-name>
-        <param-value>com.jerseybootstraping.resource</param-value>  
+        <param-name>jersey.config.server.provider.scanning.recursive</param-name>
+        <param-value>true</param-value>  
      </init-param>
      <load-on-startup>1</load-on-startup>
   </servlet>
