@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
 
 import com.abstractprograming.dto.NewPackage;
 
-@Path("xmltourmanager")
+@Path("/xmltourmanager")
 public class XMLTourManager extends TourManager {
 
 	public XMLTourManager() {
@@ -43,7 +43,7 @@ public class XMLTourManager extends TourManager {
 					newPackage.setMobile(nodeValue);
 				}else if(nodeName.equalsIgnoreCase("packageName")) {
 					newPackage.setPackageName(nodeValue);
-				}else if(nodeName.equalsIgnoreCase(" ")) {
+				}else if(nodeName.equalsIgnoreCase("status")) {
 					newPackage.setReason(nodeValue);
 				}
 			}
