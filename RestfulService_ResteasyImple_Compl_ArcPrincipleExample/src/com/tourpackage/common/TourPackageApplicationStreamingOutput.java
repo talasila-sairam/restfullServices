@@ -21,7 +21,7 @@ public class TourPackageApplicationStreamingOutput implements StreamingOutput{
 	@Override
 	public void write(OutputStream outPutStream) throws IOException, WebApplicationException {
 		System.out.println("inside the OutPutStream Writer class");
-		  
+		
 		    /*FileInputStream fin = new FileInputStream("C:\\Users\\t05053\\Downloads\\appstek.jpg");    
 		    BufferedInputStream bin = new BufferedInputStream(fin);  
 		    BufferedOutputStream bout = new BufferedOutputStream(outPutStream);  
