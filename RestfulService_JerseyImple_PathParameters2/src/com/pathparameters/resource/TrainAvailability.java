@@ -25,7 +25,7 @@ public class TrainAvailability {
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/seats")
-	//Here Tomcat and wildfly people are handling it
+	//Here Tomcat and wildfly people are handling the convertion logics
 	public String getSeats(@QueryParam("noseats") int noseats) {
 		System.out.println("inside the getSeats method");
 		String noOfSeats = "";
