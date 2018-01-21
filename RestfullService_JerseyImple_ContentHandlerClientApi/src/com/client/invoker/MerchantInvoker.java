@@ -4,7 +4,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 
-
+/*it is invoker class*/
 public class MerchantInvoker {
 	private final String  BASE_URI = "http://localhost:7887/RestfullService_JerseyImple_ContentHandlers/api/merchant/address";
    public MerchantInvoker() {
