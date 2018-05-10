@@ -1,0 +1,336 @@
+                            Jersey-Spring(Integration)										    
+						 ==================================
+     1)  This is the FirstWay that you can Integrate Spring with Jersey-Spring
+        ==> For this you have use Jersey 1.0 and spring 3.0 or lower versions of it
+        ==> It is most legecy One now a days no one using it.
+        ==> For this you need to configure a sevlet that is comming from jersey
+           i.e SpringServlet and the packaging structure will start from com.sun bcz as it is legeacy
+           web.xml configuration is 
+            <!-- The Res controller of this Jersey application, responsible for handling all application requests -->
+			<!-- Jersey-Spring Servlet -->
+		   <!--  <servlet>
+		        <servlet-name>jersey-spring-servlet</servlet-name>
+		        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+		        <!-- Register resources and providers -->
+		        <init-param>
+		            <param-name>com.sun.jersey.config.property.packages</param-name>
+		            <param-value>com.apps.inotify.resources</param-value>
+		        </init-param>
+		        <load-on-startup>2</load-on-startup>
+		    </servlet>
+		 
+		    <servlet-mapping>
+		        <servlet-name>jersey-spring-servlet</servlet-name>
+		        <url-pattern>/inotify/*</url-pattern>
+		    </servlet-mapping> -->		
+		    
+		  ==> If you see the init parameter for the sevlet i.e packages to scan is also will be com.sun  
+		  ==> Dependency's are required for pom is
+		  
+			      <!-- 	
+				https://mvnrepository.com/artifact/com.sun.jersey/jersey-servlet
+			    <dependency>
+			        <groupId>com.sun.jersey</groupId>
+			        <artifactId>jersey-server</artifactId>
+			        <version>1.8</version>
+			    </dependency>
+			
+			
+				https://mvnrepository.com/artifact/com.sun.jersey.contribs/jersey-spring
+				<dependency>
+				    <groupId>com.sun.jersey.contribs</groupId>
+				    <artifactId>jersey-spring</artifactId>
+				    <version>1.8</version>
+						<exclusions>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-core</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-web</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-beans</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-context</artifactId>
+							</exclusion>
+						</exclusions>
+			     </dependency>  -->	
+			
+			==> With these Dependencies you need to configure Spring with 3.0 or less version then it works fine
+			
+			2)This is the second way of Intigrating
+		==> Here you no need to do any thing You will configure ServletContainer(Servlet) comming from Jersy-Runtime
+		    Like as usual. and you will place one more dependecy extra that is comming from jersey. i.e jersey-spring-ext jars
+		    They will manage everything internally. this is the latest that every one is doing.and it work fine with jersey and spring latest releases
+		    web.xml configuration	 
+		    
+		            <!-- The Res controller of this Jersey application, responsible for handling all application requests -->
+					<!-- Jersey Servlet -->
+				    <!-- <servlet>
+				        <servlet-name>jersey-servlet</servlet-name>
+				        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+				        Register resources and providers
+				        <init-param>
+				            <param-name>jersey.config.server.provider.packages</param-name>
+				            <param-value>com.apps.inotify.resources</param-value>
+				        </init-param>
+				        <load-on-startup>2</load-on-startup>
+				    </servlet>
+				 
+				    <servlet-mapping>
+				        <servlet-name>jersey-servlet</servlet-name>
+				        <url-pattern>/inotify/*</url-pattern>
+				    </servlet-mapping> -->    	
+				    
+		  ==> Everything is same except this servlet is comming from glasfish and init parameter is comming as like ServletContainer
+		  ==> And the dependencies are required for pom is
+		  
+		  	<!--  JERSEY - 2.0  -->
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-servlet</artifactId>
+				<version>${version.jersey}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-json-jackson</artifactId>
+				<version>${version.jersey}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-json-processing</artifactId>
+				<version>${version.jersey}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-multipart</artifactId>
+				<version>${version.jersey}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-sse</artifactId>
+				<version>${version.jersey}</version>
+			</dependency>
+			
+			<!-- If you remove the Jersey-Spring EXT dependencies this dependency will miss so we have to add this dependency -->
+			<dependency>
+		        <groupId>org.glassfish.jersey.inject</groupId>
+		        <artifactId>jersey-hk2</artifactId>
+		        <version>${version.jersey}</version>
+		    </dependency>
+			
+		    <!-- This jar will make the bridge between spring IOC and Jersey RUNTIME 
+		    <dependency>
+			    <groupId>org.glassfish.jersey.ext</groupId>
+			    <artifactId>jersey-spring4</artifactId>
+			    <version>${version.jersey}</version>
+			    <exclusions>
+						<exclusion>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-aop</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-core</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-web</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-beans</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-context</artifactId>
+						</exclusion>
+					</exclusions>
+			</dependency>
+				     
+		==> If you remove those ext jars automatic configuration will fail and those dependencies will not injet then nullpointer exception will come
+		==> You need to exclude spring dependendencies bcz as i have configured all the spring dependencies. if you don't put this
+		    it will download some different version of spring dependencies
+		    
+		    3) Third way of approach is(Manually Creating)
+		    
+		 ==> First We have to why we required those extension jars that are comming from jersey. what it will automatically configure 
+		 ==> Earlier two cases we have seen if you place those jars it wil configure automatically what exactly does it mean
+		 ==> we want to use other layers like dao ,service in restfull service application. if you don't have dependency injection feature
+		     Then it is very difficult to maintain everything by our own.
+		 ==> Inorder to use it we have to go for Spring help so we want to intigrate spring with jersey inorder to use the features of 
+		     Spring like SpringDI , SpringTX, SpringORM like more.
+		 ==> If you restService has to talk with Service layer of your application then it need to inject automatically.but all the service classes
+		      and dao classes are be the part of IOC container. then Dao injection is possible in service HibernateTemplate or JDBCTemplate is Possible
+		      to inject into Dao's bcz as they are beans in IOC Container
+		 ==> But if you comes to your resource classes ServletContainer will create those class object  though if you place @Componet annotation over on it
+		     IOC container will make those resources also a beans inside IOC Container. but this Objects and ServeltContainer maintained object are different
+		     so if you try to acess service classes in resource classes injection is not possible it will through NullPointerException
+		 ==> To getRid out of it you need to make same object in IOC Container and ServletContainer cretaed maintained Objects
+		     This is possible , First of all IOC Container oBject is creating By ContextLoaderListener as we are supplying application-context.xml
+		     and our resource classes also a beans inside IOC Container. bcz we are writing @Componet over on ot
+		 ==> Before creating ServletContainer object it will create it ,bcz just after creating ServletContext this Listener will execute it.
+		     once after creating those object will there in IOC Container and IOC Container will be there in ServletContext bcz ContextLoaderListener will place 
+		     ApplicationContext object in ServletContext.
+		 ==> You can write a class that extending from Application class or Resourceconfig class. this class automatically will call bcz as jersy-container
+		     is implementing SPI interface(ServletContainerIntializer)
+		 ==> You can get that ServletContext object byusing Jersey @Context injection.and you need to pass this   ServeltContext Object to WebApplicationUtils class
+		     It will return ApplicationContext Object to you. this class is comming from Srping-Web-Mvc  
+		 ==> Already Beans are avilable in Spring IOC Container we will get it from Container and we will give this to jersey-runtime to use insted of
+		     creating again by your own
+		 ==>  This is we can achive by over riding getSingletons or getClasses methods from Application class
+		 ==> In spring by default scope is singleton and jersey we are giving this single object to that so dependecy injection is possible bcz
+		     Those are using or sharing same object
+		 ==> but if you are giving suppose EmployeeResource.class to getClasses method injection is not possible bcz container is creating different object which
+		     it not there in Spring IOC Container you will get nullpointer exception you will get
+		 ==> This is the process you need to follw inorder to by your own inc=sted of that jersey people comes up with jersey-spring-ext libraries all this 
+		     configuration will be done by their own if you want to do it by your own you don't required this jars
+		 ==> we can use eiter ext jars comming from glassfish or sun bu those are legacy
+		 ==> Incase if you are using getClasses method and provided Resource classes as argument and you have ext libraries in class path still it will make
+		     your classs as singleton objects
+		 ==> Bydefault resource classes are requestscope means for every request one object will be created. but if you have those libraries it will makes as singleton
+		     object. though you can eliminate web.xml by extending from Application class and getSingleton methods you can make your classes prototype or 
+		     request scope but this jars makes yor class as Singleton only
+		     
+		     For without jars code is
+		     
+		    protected Set<Object> singletons;
+			protected Set<Class<?>> getClasses;
+			
+			/*@Context
+			ServletContext context;*/
+			
+		    public INotifyApplication() {
+		    	System.out.println("inside INotifyApplication Con");
+		    	 singletons = new HashSet<Object>();
+				 getClasses = new HashSet<Class<?>>();
+			}
+			
+			@Override
+			public Set<Class<?>> getClasses() {
+				System.out.println("inside getClasses");
+				 getClasses.add(EmployeeResource.class);
+				return getClasses;
+			}
+		
+			@Override
+			public Set<Object> getSingletons() {
+				 System.out.println("inside getSingletons");
+		    /*   ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(context);
+				  applicationContext.getBean("employeeResource" ,EmployeeResource.class);*/
+				return super.getSingletons();
+			}
+			
+			Insted of that Configuration is 
+			
+				<!-- The Res controller of this Jersey application, responsible for handling all application requests -->
+				<!-- Jersey Servlet -->
+			   <!--     <servlet>
+			        <servlet-name>jersey-servlet</servlet-name>
+			        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+			        Register resources and providers
+			        <init-param>
+			            <param-name>jersey.config.server.provider.packages</param-name>
+			            <param-value>com.apps.inotify.resources</param-value>
+			        </init-param>
+			        <load-on-startup>2</load-on-startup>
+			    </servlet>
+			 
+			    <servlet-mapping>
+			        <servlet-name>jersey-servlet</servlet-name>
+			        <url-pattern>/inotify/*</url-pattern>
+			    </servlet-mapping> -->
+			    
+			    Dependencies Are :-
+			     Here we can go with Latest Relaeses
+			    <!--  JERSEY - 2.0  -->
+				<dependency>
+					<groupId>org.glassfish.jersey.containers</groupId>
+					<artifactId>jersey-container-servlet</artifactId>
+					<version>${version.jersey}</version>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.glassfish.jersey.media</groupId>
+					<artifactId>jersey-media-json-jackson</artifactId>
+					<version>${version.jersey}</version>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.glassfish.jersey.media</groupId>
+					<artifactId>jersey-media-json-processing</artifactId>
+					<version>${version.jersey}</version>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.glassfish.jersey.media</groupId>
+					<artifactId>jersey-media-multipart</artifactId>
+					<version>${version.jersey}</version>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.glassfish.jersey.media</groupId>
+					<artifactId>jersey-media-sse</artifactId>
+					<version>${version.jersey}</version>
+				</dependency>
+				
+				<!-- If you remove the Jersey-Spring EXT dependencies this dependency will miss so we have to add this dependency -->
+				<dependency>
+			        <groupId>org.glassfish.jersey.inject</groupId>
+			        <artifactId>jersey-hk2</artifactId>
+			        <version>${version.jersey}</version>
+			    </dependency>
+				
+			    <!-- This jar will make the bridge between spring IOC and Jersey RUNTIME 
+			    <dependency>
+				    <groupId>org.glassfish.jersey.ext</groupId>
+				    <artifactId>jersey-spring4</artifactId>
+				    <version>${version.jersey}</version>
+				    <exclusions>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-aop</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-core</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-web</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-beans</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-context</artifactId>
+							</exclusion>
+						</exclusions>
+				</dependency>
+			    
+			    
+					     
+					     
